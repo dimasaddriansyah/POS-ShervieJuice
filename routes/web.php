@@ -34,12 +34,12 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
 Route::group(['middleware' => 'auth:pegawai'], function () {
 
     Route::get('kasir', [DashboardPegawai::class, 'index'])->name('kasir');
-    Route::post('add-transaksi', [DashboardPegawai::class, 'addTransaksi'])->name('kasir.tambahTransaksi');
-    Route::get('delete-transaksi/{id}', [DashboardPegawai::class, 'deleteTransaksi']);
+    Route::post('tambah-transaksi/{produk}', [DashboardPegawai::class, 'tambahTransaksi'])->name('kasir.tambahTransaksi');
+    Route::delete('delete-transaksi/{produk}', [DashboardPegawai::class, 'deleteTransaksi'])->name('kasir.hapusTransaksi');
 
-    Route::get('pegawai/konfirmasi/{id}', [DashboardPegawai::class, 'tampilKonfirmasi']);
-    Route::post('add-konfirmasi/{id}', [DashboardPegawai::class, 'konfirmasi']);
-    Route::get('cetak_pdf/{id}', [DashboardPegawai::class, 'cetak_pdf']);
+    Route::get('konfirmasiTransaksi/{transaksi}', [DashboardPegawai::class, 'tampilKonfirmasi'])->name('kasir.tampilKonfirmasi');
+    Route::post('konfirmasi/{transaksi}', [DashboardPegawai::class, 'konfirmasiTransaksi'])->name('kasir.konfirmasiTransaksi');
+    Route::get('cetakPDF/{transaksi}', [DashboardPegawai::class, 'cetakPDF'])->name('kasir.cetakPDF');
 });
 
 Route::group(['middleware' => 'guest'], function () {
