@@ -3,8 +3,8 @@
 1. Download / Clone https://github.com/dimasaddriansyah/POS-ShervieJuice.git
 2. Buka Folder POS-ShervieJuice
 3. Buka CMD / Git Bash
-4. Ketik composer install
-5. Ketik .env.example .env
+4. Ketik "composer install"
+5. Ketik "cp .env.example .env"
 6. Buat Database "project_pos" di phpmyadmin
 7. Buka File .env
 8. Setting Database sama dengan yang di phpmyadmin
