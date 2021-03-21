@@ -9,14 +9,15 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/fontawesome/css/all.min.css') }}">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl' crossorigin='anonymous'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css' rel='stylesheet'>
 
     <!-- Styles -->
     <style>
         html,
         body {
-            background-color: #0B3237;
-            color: #FFF;
+            background-color: #fafafa;
+            color: #333;
             font-family: 'Nunito', sans-serif;
             font-weight: 200;
             height: 100vh;
@@ -51,6 +52,10 @@
             font-size: 32px;
         }
 
+        .links .text-link{
+            color: #f48b29;
+        }
+
         .links>a {
             color: #636b6f;
             padding: 0 25px;
@@ -71,6 +76,7 @@
 <body>
     <div class="flex-center position-ref full-height">
         <div class="content">
+            <img src="{{ asset('img/Shervie.png') }}" class="img-fluid mb-5" width="300px" height="300px"  alt="Logo">
             <div class="title m-b-md ">
                 APLIKASI MANAJEMEN PENJUALAN TOKO SHERVIE JUICE
                 <br>
@@ -78,11 +84,12 @@
             </div>
 
             <div class="links">
-                <a href="{{ route('login') }}" style="color: #EEE8AA;">Silahkan Masuk Ke Aplikasi <i
-                        class="fas fa-arrow-circle-right" style="font-size: 15px;"></i></a>
+                <a href="{{ route('login') }}" class="text-link">Silahkan Masuk Ke Aplikasi <i
+                        class="bi bi-arrow-right ms-2"></i></a>
             </div>
         </div>
     </div>
-</body>
 
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js' integrity='sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0' crossorigin='anonymous'></script>
+</body>
 </html>

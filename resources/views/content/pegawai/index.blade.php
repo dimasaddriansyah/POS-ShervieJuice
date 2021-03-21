@@ -4,8 +4,8 @@
     <div class="row mb-3">
         <div class="col-12">
             <div class="card">
-                <div class="card-header bg-primary">
-                    <h5 class="text-white">List Produk</h5>
+                <div class="card-header bg-warning">
+                    <h5>List Produk</h5>
                 </div>
                 <div class="card-body">
                     <div class="modal-body">
@@ -43,8 +43,8 @@
     <div class="row">
         <div class="col-8">
             <div class="card">
-                <div class="card-header" style="background-color: #008080;">
-                    <h5 style="color: white">
+                <div class="card-header bg-warning">
+                    <h5>
                         <i class="fa fa-info-circle"></i>
                         Detail Transaksi :
                             @if (!empty($transaksi))
@@ -110,18 +110,22 @@
         </div>
         <div class="col-4">
             <div class="card">
-                <div class="card-header bg-success">
-                    <h5 class="text-white"><i class="fas fa-check-double"></i> Konfirmasi Transaksi</h5>
+                <div class="card-header bg-warning">
+                    <h5><i class="fas fa-check-double"></i> Konfirmasi Transaksi</h5>
                 </div>
                 <div class="card-body">
                     @if (!empty($transaksi))
                         <form action="{{ route('kasir.konfirmasiTransaksi', $transaksi) }}" method="post">
+                        @csrf
                     @endif
-                    @csrf
                     <div class="form-group">
                         <label class="form-label">Nama Pembeli</label>
                         <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror"
-                            name="nama_pembeli" value="Pembeli Shervie Juice" readonly>
+                            name="nama_pembeli"
+                            @if (!empty($transaksi))
+                            value="Pembeli Shervie Juice"
+                            @endif
+                            readonly>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Total Harga</label>
@@ -139,10 +143,16 @@
                                 class="invalid-feedback"><strong>{{ $errors->first('uang_bayar') }}</strong></span>
                         @endif
                     </div>
+                    @if (!empty($transaksi))
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success btn-block mt-3">Konfirmasi</button>
+                        <button class="btn btn-warning btn-block mt-3">Konfirmasi</button>
                     </div>
                     </form>
+                    @else
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning btn-block mt-3">Silahkan Tambah Produk</button>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -190,6 +200,22 @@
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    $(".swal-confirm").click(function(e) {
+        id = e.target.dataset.id;
+        swal({
+                title: 'Delete Data',
+                text: 'Are you sure ?',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+        .then((willDelete) => {
+            if(willDelete){
+                $('#delete' + id).submit();
+            };
+        });
+    });
+
     function formatCurrency(num) {
         num = num.toString().replace(/\$|\,/g, '');
         if (isNaN(num))

@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 px-4 mb-5">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('kasir') }}">Casshier Shervie Juice</a>
+        <a class="navbar-brand" href="{{ route('kasir') }}">
+                <img src="{{ asset('img/Shervie.png') }}" class="img-fluid align-self-center" width="50px" height="50px" alt="Logo">
+                Casshier Shervie Juice
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

@@ -1,13 +1,18 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('pemilik.dashboard') }}">Shervie Juice</a>
+            <a href="{{ route('pemilik.dashboard') }}">
+                <img src="{{ asset('img/Shervie.png') }}" class="img-fluid align-self-center" width="50px" height="50px" alt="Logo">
+                <span class="align-self-center">Shervie Juice</span>
+            </a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('pemilik.dashboard') }}">Sh</a>
+            <a href="{{ route('pemilik.dashboard') }}">
+                <img src="{{ asset('img/Shervie.png') }}" class="img-fluid" width="50px" height="50px" alt="Logo">
+            </a>
         </div>
         <ul class="sidebar-menu">
-            <li class="{{ request()->routeIs('pemilik.dashboard') ? 'active' : '' }}">
+            <li class="mt-2 {{ request()->routeIs('pemilik.dashboard') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('pemilik.dashboard') }}"><i class="fas fa-fire"></i>
                     <span>Dashboard</span></a>
             </li>

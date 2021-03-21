@@ -9,8 +9,8 @@
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <div class="card-header" style="background-color: #008080">
-                    <h5 style="color: white"><i class="fas fa-scroll"></i> Data Pembelian</h5>
+                <div class="card-header bg-warning">
+                    <h5><i class="fas fa-scroll"></i> Data Pembelian</h5>
                 </div>
                 <div class="col-md-12">
                     <div class="card-body">
@@ -44,8 +44,8 @@
         </div>
         <div class="col-6">
             <div class="card">
-                <div class="card-header" style="background-color: #008080">
-                    <h5 style="color: white"><i class="fas fa-check-double"></i> Data Transaksi : TR - @if (!empty($transaksi)){{ $transaksi->id }}@endif
+                <div class="card-header bg-warning">
+                    <h5><i class="fas fa-check-double"></i> Data Transaksi : TR - @if (!empty($transaksi)){{ $transaksi->id }}@endif
                     </h5>
                 </div>
                 <div class="col-md-12">
@@ -74,7 +74,7 @@
                             </tr>
                         </table>
                         <div class="d-grid gap-2">
-                            <a class="btn btn-success" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
+                            <a class="btn btn-warning" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
                                     class="bi bi-printer me-2"></i> Print Struk Transaksi</a>
                         </div>
                     </div>

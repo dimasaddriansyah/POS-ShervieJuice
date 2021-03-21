@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth:pegawai'], function () {
 
     Route::get('kasir', [DashboardPegawai::class, 'index'])->name('kasir');
     Route::post('tambah-transaksi/{produk}', [DashboardPegawai::class, 'tambahTransaksi'])->name('kasir.tambahTransaksi');
-    Route::delete('delete-transaksi/{produk}', [DashboardPegawai::class, 'deleteTransaksi'])->name('kasir.hapusTransaksi');
+    Route::delete('delete-transaksi/{produk}', [DashboardPegawai::class, 'hapusTransaksi'])->name('kasir.hapusTransaksi');
 
     Route::get('konfirmasiTransaksi/{transaksi}', [DashboardPegawai::class, 'tampilKonfirmasi'])->name('kasir.tampilKonfirmasi');
     Route::post('konfirmasi/{transaksi}', [DashboardPegawai::class, 'konfirmasiTransaksi'])->name('kasir.konfirmasiTransaksi');
