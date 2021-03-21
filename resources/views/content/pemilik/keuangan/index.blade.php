@@ -2,10 +2,10 @@
 @section('title', 'Data Laporan Transaksi')
 @section('content')
     <div class="section-header">
-        <h1>Laporan Transaksi Page</h1>
+        <h1>Laporan Keuangan</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{{ route('pemilik.dashboard') }}">Dashboard</a></div>
-            <div class="breadcrumb-item">Laporan Transaksi</div>
+            <div class="breadcrumb-item">Laporan Keuangan</div>
         </div>
     </div>
     <div class="section-body">
@@ -20,9 +20,10 @@
                 <table id="example1" class="table table-bordered table-hover table-responsive-lg">
                     <thead>
                         <tr>
-                            <th>Nomer Transaksi</th>
+                            <th>No</th>
                             <th>Nama Pembeli</th>
                             <th>Nama Produk</th>
+                            <th>Jumlah Beli</th>
                             <th>Harga Satuan</th>
                             <th>Jumlah Harga</th>
                         </tr>
@@ -33,7 +34,8 @@
                                 <td>TR - {{ $keuangan->transaksi_id }}</td>
                                 <td>{{ $keuangan->transaksi->nama_pembeli }}</td>
                                 <td>{{ $keuangan->produk->nama }}</td>
-                                <td>{{ $keuangan->jumlah_beli }} x @currency($keuangan->produk->harga)</td>
+                                <td>{{ $keuangan->jumlah_beli }}</td>
+                                <td>@currency($keuangan->produk->harga)</td>
                                 <td>@currency($keuangan->jumlah_harga)</td>
                             </tr>
                         @endforeach

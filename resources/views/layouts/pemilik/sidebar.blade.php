@@ -47,7 +47,7 @@
                     <span>Riwayat Transaksi</span></a></li>
             <li class="{{ request()->routeIs('keuangan.index') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('keuangan.index') }}"><i class="fas fa-chart-line"></i>
-                    <span>Laporan Transaksi</span></a></li>
+                    <span>Laporan Keuangan</span></a></li>
         </ul>
     </aside>
 </div>

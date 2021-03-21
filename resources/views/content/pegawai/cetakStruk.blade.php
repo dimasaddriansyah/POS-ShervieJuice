@@ -13,7 +13,7 @@
     <div class="col-12 mt-3">
         <div class="card">
             <h1>Shervie Juice</h1>
-            <h5>Jl. Tanjung Pura 18 (Ruko Kuning Pintu Ijo, Utara Perempatan SC), Indramayu.</h5>
+            <h6>Jl. Tanjung Pura 18 Ruko Kuning Pintu Ijo, Utara Perempatan SC, Indramayu</h6>
             <table class="table">
                 <tr>
                     <td>Nama Kasir</td>

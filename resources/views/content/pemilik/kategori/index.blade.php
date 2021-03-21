@@ -60,7 +60,7 @@
 
 @section('modal')
     {{-- Add --}}
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" id="tambahKategori" aria-hidden="true">
+    <div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="tambahKategori" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary">Save</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
                 </form>
             </div>
