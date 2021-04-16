@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
     Route::patch('editharga/{barang}', [ProdukMasukController::class, 'editHarga'])->name('produkMasuk.editHarga');
     Route::get('admin/transaksi', [TransaksiController::class, 'transaksi'])->name('transaksi.index');
     Route::get('admin/keuangan', [TransaksiController::class, 'keuangan'])->name('keuangan.index');
+    Route::post('admin/keuangan', [TransaksiController::class, 'keuangan']);
 });
 
 Route::group(['middleware' => 'auth:pegawai'], function () {
