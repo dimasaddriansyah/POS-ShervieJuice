@@ -12,16 +12,16 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col">
-                        <button class="btn btn-info align-content-center float-right mb-3"><i class="fas fa-wallet mr-2"></i> Pendapatan :
+                    <div class="col-6">
+                        <button class="btn btn-info float-left mb-3"><i class="fas fa-wallet mr-2"></i> Pendapatan :
                             @currency($pendapatan)</button> 
                     </div>
-                    <div class="col-sm-">
-                    <form method="post">
-                    {{csrf_field()}}
-                        <input type="text" name="range" class="form-control" >
-                        <input type="submit" name="submit" class="btn btn-info" value="filter">
-                    </form>
+                    <div class="col-6">
+                        <form method="post">
+                        @csrf
+                            <input type="text" name="range" class="form-control d-flex d-inline">
+                            <input type="submit" name="submit" class="btn btn-info" value="Filter">
+                        </form>
                     </div>
                 </div>
                 <table id="example1" class="table table-bordered table-hover table-responsive-lg">

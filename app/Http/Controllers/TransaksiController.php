@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class TransaksiController extends Controller
 {
     public function Transaksi(){
-        $transaksi = Transaksi::where('status', 1)->get();
+        $transaksis = Transaksi::orderBy('created_at', 'DESC')->where('status', 1)->get();
 
-        return view('content.pemilik.transaksi.index', compact('transaksi'));
+        return view('content.pemilik.transaksi.index', compact('transaksis'));
     }
 
     public function Keuangan(Request $request){

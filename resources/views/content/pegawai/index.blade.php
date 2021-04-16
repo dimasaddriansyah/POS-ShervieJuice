@@ -123,11 +123,7 @@
                     <div class="form-group">
                         <label class="form-label">Nama Pembeli</label>
                         <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror"
-                            name="nama_pembeli"
-                            @if (!empty($transaksi))
-                            value="Pembeli Shervie Juice"
-                            @endif
-                            readonly>
+                            name="nama_pembeli">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Total Harga</label>
