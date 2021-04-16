@@ -16,6 +16,7 @@
                                     <button class="card bg-danger mb-2" style="text-decoration: none" disabled>
                                         <div class="card-body text-white">
                                             <h6>{{ $produk->nama }}</h6>
+                                            <p>Kategori {{ $produk->kategori->nama }}</p>
                                             <p>Harga : {{ $produk->harga }}</p>
                                             <p>Stok : {{ $produk->stok }}</p>
                                         </div>
@@ -27,6 +28,7 @@
                                         data-bs-target="#produk{{ $produk->id }}">
                                         <div class="card-body">
                                             <h6>{{ $produk->nama }}</h6>
+                                            <p>Kategori {{ $produk->kategori->nama }}</p>
                                             <p>Harga : {{ $produk->harga }}</p>
                                             <p>Stok : {{ $produk->stok }}</p>
                                         </div>
