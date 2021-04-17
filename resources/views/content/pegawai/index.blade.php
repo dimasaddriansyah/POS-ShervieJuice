@@ -159,7 +159,8 @@
                             <th>Nama Produk</th>
                             <th>Stok</th>
                             <th>Harga</th>
-                            <th>Pilih</th>
+                            <th>Jumlah Beli</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,14 +170,15 @@
                             <td>{{ $produk->nama }}</td>
                             <td>{{ $produk->stok }}</td>
                             <td>{{ $produk->harga }}</td>
-                            <td><input type="checkbox" name="produk" value="{{$produk->id}}" @if($produk->stok==0 ) disabled @endif></td>
+                            <form method="POST" action="{{route('kasir.tambahTransaksi', $produk->id)}}">
+                            {{csrf_field()}}
+                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" ></td>
+                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="submit" class="btn btn-primary" name="submit" value="Tambahkan" ></td>
+                            </form>
                         </tr>
                     @endforeach
                     </tbody>
                     </table>
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button class="btn btn-primary" data-dismiss="modal">Tambahkan</button>
                 </div>
             </div>
         </div>
@@ -237,6 +239,8 @@
     function stopCalc() {
         clearInterval(interval);
     }
-
+    function tambahkan(){
+       
+    }
 </script>
 @endpush
