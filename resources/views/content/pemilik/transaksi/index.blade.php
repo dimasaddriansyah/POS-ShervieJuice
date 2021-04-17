@@ -35,7 +35,7 @@
                                 <td>@currency($transaksi->uang_bayar - $transaksi->jumlah_harga)</td>
                                 <td>{{ $transaksi->created_at }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-xs btn-icon" data-toggle="modal" data-target="#detailTransaksi{{ $transaksi->id }}"><i class="fas fa-eye"></i></button>
+                                    <button type="button" class="btn btn-info btn-xs btn-icon" data-toggle="modal" data-target="#detailTransaksi{{ $transaksi->id }}"><i class="fas fa-eye"></i></button>
                                 </td>
                             </tr>
                         @endforeach
