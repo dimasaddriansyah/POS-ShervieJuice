@@ -10,31 +10,15 @@
                 <div class="card-body">
                     <div class="modal-body">
                         <div class="row">
-                            @foreach ($produks as $produk)
-                                @if ($produk->stok <= 0)
-                                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                                    <button class="card bg-danger mb-2" style="text-decoration: none" disabled>
-                                        <div class="card-body text-white">
-                                            <h6>{{ $produk->nama }}</h6>
-                                            <p>Kategori {{ $produk->kategori->nama }}</p>
-                                            <p>Harga : {{ $produk->harga }}</p>
-                                            <p>Stok : {{ $produk->stok }}</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                @else
+                            @foreach ($kategoris as $kategori)
                                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                                     <button class="card mb-2" style="text-decoration: none" data-bs-toggle="modal"
-                                        data-bs-target="#produk{{ $produk->id }}">
-                                        <div class="card-body">
-                                            <h6>{{ $produk->nama }}</h6>
-                                            <p>Kategori {{ $produk->kategori->nama }}</p>
-                                            <p>Harga : {{ $produk->harga }}</p>
-                                            <p>Stok : {{ $produk->stok }}</p>
+                                        data-bs-target="#kategori{{ $kategori->id }}">
+                                    <div class="card-body">
+                                            <h6>{{ $kategori->nama }}</h6>
                                         </div>
                                     </button>
                                 </div>
-                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -157,33 +141,45 @@
     </div>
 
     <!-- Modal -->
-    @foreach ($produks as $produk)
-        <div class="modal fade" id="produk{{ $produk->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">{{ $produk->nama }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('kasir.tambahTransaksi', $produk) }}" method="post">
-                            @csrf
-                            <div class="from-group">
-                                <label for="jumlah_beli"
-                                    class="form-label @error('jumlah_beli') text-danger @enderror">Jumlah Beli</label>
-                                <input type="number" name="jumlah_beli"
-                                    class="form-control @error('jumlah_beli') is-invalid @enderror"
-                                    value="{{ old('jumlah_beli') }}" placeholder="Masukan Jumlah Beli">
-                                @if ($errors->has('jumlah_beli')) <span
-                                    class="invalid-feedback fw-bold">{{ $errors->first('jumlah_beli') }}</span>@enderror
-                        </div>
+    @foreach ($kategoris as $kategori)
+    <div class="modal fade" data-keyboard="false" tabindex="-1" role="dialog" id="kategori{{ $kategori->id }}">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{$kategori->nama}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                <div class="modal-body">
+                    <table id="example1" class="table table-bordered table-hover table-responsive-lg">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Produk</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                            <th>Jumlah Beli</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($kategori->produk as $produk)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $produk->nama }}</td>
+                            <td>{{ $produk->stok }}</td>
+                            <td>{{ $produk->harga }}</td>
+                            <form method="POST" action="{{route('kasir.tambahTransaksi', $produk->id)}}">
+                            {{csrf_field()}}
+                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" ></td>
+                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="submit" class="btn btn-primary" name="submit" value="Tambahkan" ></td>
+                            </form>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                    </table>
                 </div>
-                </form>
             </div>
         </div>
     </div>
@@ -243,6 +239,8 @@
     function stopCalc() {
         clearInterval(interval);
     }
-
+    function tambahkan(){
+       
+    }
 </script>
 @endpush

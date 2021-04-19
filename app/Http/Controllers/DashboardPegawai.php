@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Transaksi;
+use App\Models\Kategori;
 use App\Models\Transaksi_Detail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -13,14 +14,15 @@ class DashboardPegawai extends Controller
 {
     public function index()
     {
-        $produks = Produk::orderBy('stok', 'DESC')->get();
+        $kategoris = Kategori::get();
+        $produks = Produk::with('kategori')->orderBy('stok', 'DESC')->get();
         $transaksi_detail = Transaksi_Detail::get();
         $transaksi = Transaksi::where('status', 0)->first();
         if (!empty($transaksi)) {
             $transaksi_detail  = Transaksi_Detail::where('transaksi_id', $transaksi->id)->get();
-            return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail'));
+            return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail', 'kategoris'));
         }
-        return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail'));
+        return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail', 'kategoris'));
     }
 
     public function tambahTransaksi(Request $request, $id)
