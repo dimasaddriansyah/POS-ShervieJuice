@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
     Route::get('cetakPDFTransaksi', [TransaksiController::class, 'cetakPDFTransaksi'])->name('transaksi.cetakPDF');
     Route::get('cetakExcelTransaksi', [TransaksiController::class, 'cetakExcelTransaksi'])->name('transaksi.cetakExcel');
     Route::get('admin/keuangan', [TransaksiController::class, 'keuangan'])->name('keuangan.index');
+    Route::post('admin/keuangan', [TransaksiController::class, 'keuangan']);
     Route::get('cetakPDFKeuangan', [TransaksiController::class, 'cetakPDFKeuangan'])->name('keuangan.cetakPDF');
     Route::get('cetakExcelKeuangan', [TransaksiController::class, 'cetakExcelKeuangan'])->name('keuangan.cetakExcel');
 });

@@ -8,23 +8,28 @@ use App\Models\Transaksi;
 use Maatwebsite\Excel\Facades\Excel as Excel;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
     public function Transaksi()
     {
-        $transaksi = Transaksi::with('pegawai')->where('status', 1)->get();
+        $transaksis = Transaksi::with('pegawai')->where('status', 1)->get();
 
-        return view('content.pemilik.transaksi.index', compact('transaksi'));
+        return view('content.pemilik.transaksi.index', compact('transaksis'));
     }
 
-    public function Keuangan()
+    public function Keuangan(Request $request)
     {
-        // SELECT created_at AS Tanggal, SUM(jumlah_harga) as Pendapatan FROM transaksi GROUP BY month(created_at);
-        $keuangan = Transaksi::where('status', 1)->get();
-        $cariBulan = Transaksi::whereMonth('created_at', '=', '3')->where('status', 1)->get();
-        $pendapatan = Transaksi::where('status', 1)->get()->sum('jumlah_harga');
+        $keuangan = Transaksi::orderBy('created_at', 'DESC')->get();
+        $pendapatan = Transaksi::sum('jumlah_harga');
+        if (!empty($request->input("range"))) {
+            $start_date = explode("-", $request->input('range'))[0];
+            $end_date = explode("-", $request->input('range'))[1];
+            $keuangan = Transaksi::whereDate("created_at", ">=", $start_date)->whereDate("created_at", "<=", $end_date)->orderBy('created_at', 'DESC')->get();
+            $pendapatan = Transaksi::whereDate("created_at", ">=", $start_date)->whereDate("created_at", "<=", $end_date)->sum('jumlah_harga'); //->get();
+        }
 
         return view('content.pemilik.keuangan.index', compact('keuangan', 'pendapatan'));
     }
