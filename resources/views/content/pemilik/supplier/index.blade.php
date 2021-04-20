@@ -16,7 +16,7 @@
                         <button class="btn btn-primary float-right px-4 mb-3" data-toggle="modal" data-target="#tambahSupplier" href=""><i class="fas fa-user-plus mr-2"></i> Tambah Data</button>
                     </div>
                 </div>
-                <table id="example1" class="table table-bordered table-hover table-responsive-lg">
+                <table class="table table-bordered table-hover table-responsive-lg example1">
                     <thead class="thead-dark">
                         <tr>
                             <th>No</th>
@@ -37,8 +37,9 @@
                                 <td>{{ $supplier->no_hp }}</td>
                                 <td>
                                     <center>
-                                        <button type="button" class="btn btn-xs btn-warning btn-flat" data-toggle="modal" data-target="#editSupplier{{ $supplier->id }}"><i class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-xs btn-danger btn-flat swal-confirm" data-id="{{ $supplier->id }}">
+                                        <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#detailSupplier{{ $supplier->id }}"><i class="fas fa-eye"></i></button>
+                                        <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#editSupplier{{ $supplier->id }}"><i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-xs btn-danger swal-confirm" data-id="{{ $supplier->id }}">
                                             <form action="{{ route('supplier.destroy', $supplier) }}" method="POST" id="delete{{ $supplier->id }}">
                                                 @csrf
                                                 @method('DELETE')
@@ -57,6 +58,51 @@
     </div>
 
     @section('modal')
+
+    {{-- Detail --}}
+    @foreach($suppliers as $supplier)
+    <div class="modal fade" tabindex="-1" role="dialog" id="detailSupplier{{$supplier->id}}" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">List Produk Supplier {{ $supplier->nama }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover table-responsive-lg example1">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori</th>
+                                <th>Stok</th>
+                                <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($supplier->produk as $produk)
+                                <tr>
+                                    <td>{{$loop->iteration }}</td>
+                                    <td>{{$produk->nama}}</td>
+                                    <td>{{$produk->kategori->nama}}</td>
+                                    <td>{{$produk->stok}}</td>
+                                    <td>@currency($produk->harga)</td>
+                                </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+    {{-- End Detail --}}
+
     {{-- Add --}}
     <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" id="tambahSupplier">
         <div class="modal-dialog" role="document">
@@ -152,8 +198,8 @@
 <script src="{{asset('assets_admin/dist/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script>
     $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
+            $(".example1").DataTable();
+            $('.example2').DataTable({
             "paging": true,
             "lengthChange": false,
             "searching": false,

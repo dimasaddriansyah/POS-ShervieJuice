@@ -12,6 +12,11 @@ class AuthController extends Controller
         return view('login');
     }
 
+    public function forgotPassword()
+    {
+        return view('forgot_password');
+    }
+
     function loginPost(Request $request)
     {
         if (Auth::guard('pemilik')->attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -35,6 +40,7 @@ class AuthController extends Controller
         } else if (Auth::guard('pegawai')->check()) {
             Auth::guard('pegawai')->logout();
         }
-        return redirect()->route('login')->with('alert', 'Kamu sudah logout');
+        return redirect()->route('login')->with('alert-success', 'Kamu sudah logout');
     }
+
 }

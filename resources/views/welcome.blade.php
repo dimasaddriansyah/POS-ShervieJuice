@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Laravel</title>
 
     <!-- Fonts -->
@@ -16,8 +15,8 @@
     <style>
         html,
         body {
-            background-color: #fafafa;
-            color: #333;
+            background-color: #f4f6f9;
+            color: #34395e;
             font-family: 'Nunito', sans-serif;
             font-weight: 200;
             height: 100vh;

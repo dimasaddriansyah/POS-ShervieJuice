@@ -17,7 +17,7 @@
                             Data</button>
                     </div>
                 </div>
-                <table id="example1" class="table table-bordered table-hover table-responsive-lg">
+                <table id="" class="table table-bordered table-hover table-responsive-lg example1">
                     <thead class="thead-dark">
                         <tr>
                             <th>No</th>
@@ -30,13 +30,14 @@
                     <tbody>
                         @foreach ($kategoris as $key => $kategori)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{$loop->iteration }}</td>
                                 <td>{{ $kategori->nama }}</td>
                                 <td>
                                     <center>
                                         {{-- <button type="button" class="btn btn-warning  btn-edit" data-toggle="modal" data-target="#editKategori-{{ $kategori->id }}">
                                             <i class="fas fa-user-edit"></i>
                                         </button> --}}
+                                        <button type="button" class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#detailKategori{{ $kategori->id }}"><i class="fas fa-eye"></i></button>
                                         <button type="button" class="btn btn-xs btn-warning btn-flat" data-toggle="modal" data-target="#editKategori{{ $kategori->id }}"><i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-xs btn-danger btn-flat swal-confirm"
                                             data-id="{{ $kategori->id }}">
@@ -59,6 +60,50 @@
     </div>
 
 @section('modal')
+    {{-- Detail --}}
+    @foreach ($kategoris as $kategori)
+    <div class="modal fade" tabindex="-1" role="dialog" id="detailKategori{{$kategori->id}}" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">List Produk Kategori {{ $kategori->nama }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="" class="table table-bordered table-hover table-responsive-lg example1">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Produk</th>
+                                <th>Supplier</th>
+                                <th>Stok</th>
+                                <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($kategori->produk as $produk)
+                                <tr>
+                                    <td>{{$loop->iteration }}</td>
+                                    <td>{{$produk->nama}}</td>
+                                    <td>{{$produk->supplier->nama}}</td>
+                                    <td>{{$produk->stok}}</td>
+                                    <td>@currency($produk->harga)</td>
+                                </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+    {{-- End Detail --}}
+
     {{-- Add --}}
     <div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="tambahKategori" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -136,8 +181,8 @@
 <script src="{{ asset('assets_admin/js/page/modules-sweetalert.js') }}"></script>
 <script>
     $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
+            $(".example1").DataTable();
+            $('.example2').DataTable({
             "paging": true,
             "lengthChange": false,
             "searching": false,
@@ -151,7 +196,7 @@
     })
 
     @if($errors->any())
-        $('#tambahKategori').modal('show')
+        $('#tambahKategori').modal('show'),
     @endif
 
     $(".swal-confirm").click(function(e) {

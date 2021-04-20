@@ -28,7 +28,11 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
     Route::patch('addStok/{barang}', [ProdukMasukController::class, 'tambahStok'])->name('produkMasuk.tambahStok');
     Route::patch('editharga/{barang}', [ProdukMasukController::class, 'editHarga'])->name('produkMasuk.editHarga');
     Route::get('admin/transaksi', [TransaksiController::class, 'transaksi'])->name('transaksi.index');
+    Route::get('cetakPDFTransaksi', [TransaksiController::class, 'cetakPDFTransaksi'])->name('transaksi.cetakPDF');
+    Route::get('cetakExcelTransaksi', [TransaksiController::class, 'cetakExcelTransaksi'])->name('transaksi.cetakExcel');
     Route::get('admin/keuangan', [TransaksiController::class, 'keuangan'])->name('keuangan.index');
+    Route::get('cetakPDFKeuangan', [TransaksiController::class, 'cetakPDFKeuangan'])->name('keuangan.cetakPDF');
+    Route::get('cetakExcelKeuangan', [TransaksiController::class, 'cetakExcelKeuangan'])->name('keuangan.cetakExcel');
 });
 
 Route::group(['middleware' => 'auth:pegawai'], function () {
@@ -46,6 +50,7 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginPost');
+    Route::get('/forgotPassword', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 });
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -53,7 +53,7 @@ class ProdukMasukController extends Controller
         $produk->save();
 
         alert()->success('Data Berhasil Di Tambah !', 'Success');
-        return redirect()->route('produkMasuk.index');
+        return redirect()->route('produk.index');
     }
 
     public function tambahStok(Request $request, $id)
@@ -73,7 +73,7 @@ class ProdukMasukController extends Controller
         $produk->update();
 
         alert()->success('Stock Berhasil Di Update !', 'Success');
-        return redirect()->route('produkMasuk.index');
+        return redirect()->route('produk.index');
     }
 
     public function editHarga(Request $request,$id)
@@ -91,6 +91,6 @@ class ProdukMasukController extends Controller
         $produk->update();
 
         alert()->success('Harga Berhasil Di Update !', 'Success');
-        return redirect()->route('produkMasuk.index');
+        return redirect()->route('produk.index');
     }
 }

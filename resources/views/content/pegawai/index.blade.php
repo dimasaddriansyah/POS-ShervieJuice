@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-warning">
-                    <h5>List Produk</h5>
+                    <h5><i class="fas fa-cubes mr-2"></i> List Produk</h5>
                 </div>
                 <div class="card-body">
                     <div class="modal-body">
@@ -23,8 +23,8 @@
                                 </div>
                                 @else
                                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                                    <button class="card mb-2" style="text-decoration: none" data-bs-toggle="modal"
-                                        data-bs-target="#produk{{ $produk->id }}">
+                                    <button class="card hov mb-2" style="text-decoration: none" data-toggle="modal"
+                                        data-target="#produk{{ $produk->id }}">
                                         <div class="card-body">
                                             <h6>{{ $produk->nama }}</h6>
                                             <p>Harga : {{ $produk->harga }}</p>
@@ -45,7 +45,7 @@
             <div class="card">
                 <div class="card-header bg-warning">
                     <h5>
-                        <i class="fa fa-info-circle"></i>
+                        <i class="fa fa-info-circle mr-2"></i>
                         Detail Transaksi :
                             @if (!empty($transaksi))
                                 No - {{ $transaksi->id }}
@@ -56,16 +56,14 @@
                     @if (!empty($transaksi))
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <thead>
+                                <thead class="text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Produk</th>
                                         <th>Jumlah Beli</th>
                                         <th>Harga Satuan</th>
                                         <th>Jumlah Harga</th>
-                                        <th>
-                                            <center>Option</center>
-                                        </th>
+                                        <th>Option</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +82,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <i class="bi bi-trash"></i>
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -111,7 +109,7 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-header bg-warning">
-                    <h5><i class="fas fa-check-double"></i> Konfirmasi Transaksi</h5>
+                    <h5><i class="fas fa-check-double mr-2"></i> Konfirmasi Transaksi</h5>
                 </div>
                 <div class="card-body">
                     @if (!empty($transaksi))
@@ -122,10 +120,7 @@
                         <label class="form-label">Nama Pembeli</label>
                         <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror"
                             name="nama_pembeli"
-                            @if (!empty($transaksi))
-                            value="Pembeli Shervie Juice"
-                            @endif
-                            readonly>
+                            >
                     </div>
                     <div class="form-group">
                         <label class="form-label">Total Harga</label>
@@ -160,30 +155,31 @@
 
     <!-- Modal -->
     @foreach ($produks as $produk)
-        <div class="modal fade" id="produk{{ $produk->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">{{ $produk->nama }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('kasir.tambahTransaksi', $produk) }}" method="post">
-                            @csrf
-                            <div class="from-group">
-                                <label for="jumlah_beli"
-                                    class="form-label @error('jumlah_beli') text-danger @enderror">Jumlah Beli</label>
-                                <input type="number" name="jumlah_beli"
-                                    class="form-control @error('jumlah_beli') is-invalid @enderror"
-                                    value="{{ old('jumlah_beli') }}" placeholder="Masukan Jumlah Beli">
-                                @if ($errors->has('jumlah_beli')) <span
-                                    class="invalid-feedback fw-bold">{{ $errors->first('jumlah_beli') }}</span>@enderror
+    <div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="produk{{ $produk->id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Produk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('kasir.tambahTransaksi', $produk) }}" method="post">
+                        @csrf
+                        <div class="from-group">
+                            <label for="jumlah_beli"
+                                class="form-label @error('jumlah_beli') text-danger @enderror">Jumlah Beli</label>
+                            <input type="number" name="jumlah_beli"
+                                class="form-control @error('jumlah_beli') is-invalid @enderror"
+                                value="{{ old('jumlah_beli') }}" placeholder="Masukan Jumlah Beli">
+                            @if ($errors->has('jumlah_beli')) <span
+                                class="invalid-feedback"><strong>{{ $errors->first('jumlah_beli') }}</strong></span>@enderror
                         </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-warning px-4" type="submit">Save</button>
                 </div>
                 </form>
             </div>
@@ -195,11 +191,20 @@
 
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .hov:hover{
+        background-color: #ffc107;
+    }
+</style>
 @endpush
 
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    @if($errors->any())
+        $('#produk').modal('show'),
+    @endif
+
     $(".swal-confirm").click(function(e) {
         id = e.target.dataset.id;
         swal({

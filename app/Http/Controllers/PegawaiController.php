@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Throwable;
 
 class PegawaiController extends Controller
 {
@@ -20,7 +21,7 @@ class PegawaiController extends Controller
             $request,
             [
                 'nama' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:pegawai,email',
                 'alamat' => 'required|min:6',
                 'password' => 'required|min:3',
                 'no_hp' => 'required|min:10|numeric',
@@ -30,6 +31,7 @@ class PegawaiController extends Controller
                 'nama.min' => 'Minimal 4 Karakter !',
                 'nama.regex' => 'Inputan Nama Tidak Valid !',
                 'email.required' => 'Harus Mengisi Bagian Email !',
+                'email.required' => 'Email Sudah Tedaftar !',
                 'alamat.required' => 'Harus Mengisi Bagian Alamat !',
                 'alamat.min' => 'Minimal 6 Karakter !',
                 'no_hp.required' => 'Harus Mengisi Bagian No Hp !',
@@ -84,9 +86,15 @@ class PegawaiController extends Controller
     }
     public function destroy($id)
     {
-        Pegawai::find($id)->delete();
+        try {
+            Pegawai::find($id)->delete();
 
-        alert()->success('Data Terhapus', 'Deleted');
-        return redirect()->route('pegawai.index');
+            alert()->success('Data Terhapus', 'Deleted');
+            return redirect()->route('pegawai.index');
+        } catch (Throwable $e) {
+
+            alert()->error('Data Tidak Dapat Dihapus Karena Relasi RESCRICT', 'Error');
+            return redirect()->route('pegawai.index');
+        }
     }
 }

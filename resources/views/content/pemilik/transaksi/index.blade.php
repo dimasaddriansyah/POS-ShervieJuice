@@ -11,7 +11,16 @@
     <div class="section-body">
         <div class="card">
             <div class="card-body">
-                {{-- <a class="btn btn-primary float-right px-4 mb-3" data-toggle="modal" data-target="#addCategory" href=""><i class="fas fa-user-plus mr-2"></i> Add Data</a> --}}
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ route('transaksi.cetakPDF') }}" target="_blank" class="btn btn-danger align-content-center float-left mb-3"><i class="fas fa-file-pdf mr-2"></i>
+                            Export PDF
+                        </a>
+                        <a href="{{ route('transaksi.cetakExcel') }}" target="_blank" class="btn btn-success align-content-center float-left mb-3 ml-3"><i class="fas fa-file-excel mr-2"></i>
+                            Export Excel
+                        </a>
+                    </div>
+                </div>
                 <table id="example1" class="table table-bordered table-hover table-responsive-lg">
                     <thead class="thead-dark">
                         <tr>

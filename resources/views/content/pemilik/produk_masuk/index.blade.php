@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-6">
                         <button class="btn btn-primary float-right px-4 mb-3" data-toggle="modal"
-                            data-target="#tambahStokMasuk"><i class="fas fa-plus mr-2"></i> Tambah Stok Masuk</button>
+                            data-target="#tambahStokMasuk"><i class="fas fa-plus mr-2"></i> Tambah Produk Masuk</button>
                     </div>
                 </div>
                 <table id="example1" class="table table-bordered table-hover table-responsive-lg">

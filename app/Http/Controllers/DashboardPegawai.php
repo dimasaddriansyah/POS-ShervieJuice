@@ -40,7 +40,7 @@ class DashboardPegawai extends Controller
 
         //Validasi Apakah Melebihi Stok
         if ($request->jumlah_beli > $produk->stok) {
-            alert()->error('Melebihi Batas Stok Bos', 'Error');
+            alert()->error('Melebihi Batas Stok !', 'Error');
             return redirect()->route('kasir');
         }
 
@@ -70,7 +70,7 @@ class DashboardPegawai extends Controller
         } else {
             $transaksi_detail = Transaksi_Detail::where('produk_id', $produk->id)->where('transaksi_id', $cekTransaksi->id)->first();
             if ($transaksi_detail->jumlah_beli + $request->jumlah_beli > $produk->stok) {
-                alert()->error('Barang Yang Di Keranjang Sudah Melebihi Batas Stok Bos ! ', 'Error');
+                alert()->error('Barang Yang Di Keranjang Sudah Melebihi Batas Stok ! ', 'Error');
                 return redirect()->route('kasir');
             }
             $transaksi_detail->jumlah_beli          = $transaksi_detail->jumlah_beli + $request->jumlah_beli;
@@ -102,6 +102,13 @@ class DashboardPegawai extends Controller
                 'uang_bayar.numeric' => 'Harus Pakai Nomer !',
             ]
         );
+
+        //Validasi Apakah Melebihi Stok
+        $cekTransaksi = Transaksi::where('id', $id)->where('status', 0)->first();
+        if ($cekTransaksi->jumlah_harga <= 0) {
+            alert()->error('Tidak Ada Produk Yang Dibeli !', 'Error');
+            return redirect()->route('kasir');
+        }
 
         $transaksi = Transaksi::find($id);
         $transaksi_detail = Transaksi_Detail::where('transaksi_id', $transaksi->id)->get();
@@ -156,6 +163,13 @@ class DashboardPegawai extends Controller
         $transaksi->update();
 
         $transaksi_detail->delete();
+        // if(empty($transaksi_detail)){
+        //     $transaksi->delete();
+        // }
+        // $transaksi->delete();
+
+
+        alert()->success('Berhasil Menghapus Produk', 'Success');
         return redirect()->route('kasir');
     }
 }

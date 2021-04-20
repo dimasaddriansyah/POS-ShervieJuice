@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Throwable;
 
 class SupplierController extends Controller
 {
@@ -80,9 +81,15 @@ class SupplierController extends Controller
 
     public function destroy($id)
     {
-        Supplier::find($id)->delete();
+        try{
+            Supplier::find($id)->delete();
 
-        alert()->success('Data Terhapus !', 'Deleted');
-        return redirect()->route('supplier.index');
+            alert()->success('Data Terhapus', 'Deleted');
+            return redirect()->route('supplier.index');
+        }catch (Throwable $e) {
+
+            alert()->error('Data Tidak Dapat Dihapus Karena Relasi RESCRICT', 'Error');
+            return redirect()->route('supplier.index');
+        }
     }
 }

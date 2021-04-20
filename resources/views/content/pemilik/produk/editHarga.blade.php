@@ -10,7 +10,7 @@
             <label>Harga Sekarang</label>
             <input type="number" class="form-control @error('harga') is-invalid @enderror" name="harga"
                 id="num" value="{{ old('harga') }}"
-                onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);">Nominal : <span
+                onkeyup="document.getElementById('format').className = 'format'.formatCurrency(this.value);">Nominal : <span
                 id="format"></span>
             @if ($errors->has('harga')) <span
                     class="invalid-feedback"><strong>{{ $errors->first('harga') }}</strong></span> @endif

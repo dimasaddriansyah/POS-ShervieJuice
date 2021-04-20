@@ -41,9 +41,9 @@
                             Stok
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('produkMasuk.index') ? 'active' : '' }}"><a class="nav-link"
+                    {{-- <li class="{{ request()->routeIs('produkMasuk.index') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('produkMasuk.index') }}"><i class="fas fa-dolly-flatbed"></i>Stok Masuk</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="menu-header">Transaksi</li>
