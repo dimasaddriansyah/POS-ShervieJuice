@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
 Route::group(['middleware' => 'auth:pegawai'], function () {
 
     Route::get('kasir', [DashboardPegawai::class, 'index'])->name('kasir');
+    Route::get('test-print', [DashboardPegawai::class, 'test_print']);
     Route::post('tambah-transaksi/{produk}', [DashboardPegawai::class, 'tambahTransaksi'])->name('kasir.tambahTransaksi');
     Route::delete('delete-transaksi/{produk}', [DashboardPegawai::class, 'hapusTransaksi'])->name('kasir.hapusTransaksi');
 
