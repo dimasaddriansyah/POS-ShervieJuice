@@ -29,7 +29,7 @@
                                     @foreach ($transaksi_detail as $key => $transaksi_detail)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $transaksi_detail->produk->nama }}</td>
+                                            <td>{{ $transaksi_detail->produk->kategori->nama.'-'.$transaksi_detail->produk->nama }}</td>
                                             <td>{{ $transaksi_detail->jumlah_beli }}pcs</td>
                                             <td>@currency($transaksi_detail->produk->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
