@@ -10,7 +10,7 @@ class PegawaiController extends Controller
 {
     public function index()
     {
-        $pegawais = pegawai::get();
+        $pegawais = Pegawai::get();
 
         return view('content.pemilik.pegawai.index', compact('pegawais'));
     }

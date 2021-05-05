@@ -65,9 +65,6 @@
                 <div class="modal-header">
                     <h5 class="modal-title pr-5">Nama Pembeli : {{$transaksi->nama_pembeli}}</h5>
                     <h5 class="modal-title">Transaksi {{$transaksi->created_at}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <table id="example1" class="table table-bordered table-hover table-responsive-lg">

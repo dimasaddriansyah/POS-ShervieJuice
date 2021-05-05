@@ -7,12 +7,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
-            <div class="card">
+        <div class="col-12 col-lg-7">
+            <div class="card mb-4">
                 <div class="card-header bg-warning">
-                    <h5><i class="fas fa-scroll"></i> Data Pembelian</h5>
+                    <h5><i class="fas fa-clipboard mr-2"></i> Data Pembelian</h5>
                 </div>
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -20,6 +20,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Barang</th>
+                                        <th>Kategori</th>
                                         <th>Jumlah Beli</th>
                                         <th>Harga Satuan</th>
                                         <th>Jumlah Harga</th>
@@ -30,7 +31,8 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $transaksi_detail->produk->nama }}</td>
-                                            <td>{{ $transaksi_detail->jumlah_beli }}pcs</td>
+                                            <td>{{ $transaksi_detail->kategori->nama }}</td>
+                                            <td>{{ $transaksi_detail->jumlah_beli }} Pcs</td>
                                             <td>@currency($transaksi_detail->produk->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                         </tr>
@@ -42,16 +44,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-5">
             <div class="card">
                 <div class="card-header bg-warning">
-                    <h5><i class="fas fa-check-double"></i> Data Transaksi : TR - @if (!empty($transaksi)){{ $transaksi->id }}@endif
+                    <h5><i class="fas fa-check-square mr-2"></i> Data Transaksi : TR - @if (!empty($transaksi)){{ $transaksi->id }}@endif
                     </h5>
                 </div>
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="card-body">
-                        <h6 class="mb-4 float-right"> Tanggal Pemesanan : <b>{{ $transaksi->created_at }}</b></h6>
-                        <table class="table table-hover">
+                        <h6 class="mb-4 text-center"> Tanggal Pemesanan : <b>{{ $transaksi->created_at }}</b></h6>
+                        <table class="table table-responsive-lg table-hover">
                             <tr>
                                 <td><strong>Nama Pembeli</strong></td>
                                 <td>:</td>
@@ -74,8 +76,8 @@
                             </tr>
                         </table>
                         <div class="d-grid gap-2">
-                            <a class="btn btn-warning" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
-                                    class="bi bi-printer me-2"></i> Print Struk Transaksi</a>
+                            <a class="btn btn-warning btn-block" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
+                                    class="fas fa-vote-yea mr-2"></i> Print Struk Transaksi</a>
                         </div>
                     </div>
                 </div>

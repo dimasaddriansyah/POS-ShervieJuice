@@ -14,12 +14,12 @@ class DashboardPegawai extends Controller
 {
     public function index()
     {
-        $kategoris = Kategori::get();
-        $produks = Produk::with('kategori')->orderBy('stok', 'DESC')->get();
-        $transaksi_detail = Transaksi_Detail::get();
+        $kategoris = Kategori::orderBy('nama', 'ASC')->get();
+        $produks = Produk::with('kategori')->get();
+        $transaksi_detail = Transaksi_Detail::with('transaksi', 'produk')->get();
         $transaksi = Transaksi::where('status', 0)->first();
         if (!empty($transaksi)) {
-            $transaksi_detail  = Transaksi_Detail::where('transaksi_id', $transaksi->id)->get();
+            $transaksi_detail  = Transaksi_Detail::with('transaksi', 'produk')->where('transaksi_id', $transaksi->id)->get();
             return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail', 'kategoris'));
         }
         return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail', 'kategoris'));
@@ -172,6 +172,42 @@ class DashboardPegawai extends Controller
 
 
         alert()->success('Berhasil Menghapus Produk', 'Success');
+        return redirect()->route('kasir');
+    }
+
+    public function tambahStok($id)
+    {
+        $transaksi_detail = Transaksi_Detail::find($id);
+        $produk = Produk::where('id', $transaksi_detail->produk->id)->first();
+
+        $transaksi_detail->increment('jumlah_beli');
+        $transaksi_detail->update();
+
+        $transaksi_detail->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $transaksi_detail->update();
+
+        $transaksi = Transaksi::where('id', $transaksi_detail->transaksi->id)->first();
+        $transaksi->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $transaksi->save();
+
+        return redirect()->route('kasir');
+    }
+
+    public function kurangStok($id)
+    {
+        $transaksi_detail = Transaksi_Detail::find($id);
+        $produk = Produk::where('id', $transaksi_detail->produk->id)->first();
+
+        $transaksi_detail->decrement('jumlah_beli');
+        $transaksi_detail->update();
+
+        $transaksi_detail->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $transaksi_detail->update();
+
+        $transaksi = Transaksi::where('id', $transaksi_detail->transaksi->id)->first();
+        $transaksi->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $transaksi->save();
+
         return redirect()->route('kasir');
     }
 }

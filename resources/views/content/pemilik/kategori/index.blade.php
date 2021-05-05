@@ -80,6 +80,7 @@
                                 <th>Supplier</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,6 +91,15 @@
                                     <td>{{$produk->supplier->nama}}</td>
                                     <td>{{$produk->stok}}</td>
                                     <td>@currency($produk->harga)</td>
+                                    <td>
+                                        @if ($produk->stok <= 0)
+                                            <span class="badge badge-danger">Habis</span>
+                                        @elseif($produk->stok < 5)
+                                            <span class="badge badge-warning">Kritis</span>
+                                        @else
+                                            <span class="badge badge-success">Aman</span>
+                                        @endif
+                                    </td>
                                 </tr>
                         @endforeach
                         </tbody>

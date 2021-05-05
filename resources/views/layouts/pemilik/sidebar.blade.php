@@ -53,6 +53,10 @@
             <li class="{{ request()->routeIs('keuangan.index') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('keuangan.index') }}"><i class="fas fa-chart-line"></i>
                     <span>Laporan Keuangan</span></a></li>
+            <li class="menu-header">Pengaturan</li>
+            <li class="{{ request()->routeIs('pengaturanStok') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('pengaturanStok') }}"><i class="fas fa-cog"></i>
+                    <span>Pengaturan Stok</span></a></li>
         </ul>
     </aside>
 </div>

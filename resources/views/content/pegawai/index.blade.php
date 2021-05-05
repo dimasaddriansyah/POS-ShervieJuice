@@ -11,11 +11,25 @@
                     <div class="modal-body">
                         <div class="row">
                             @foreach ($kategoris as $kategori)
-                                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                                    <button class="card mb-2" style="text-decoration: none" data-toggle="modal"
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-3">
+                                    <button class="card mb-3 hov" style="text-decoration: none" data-toggle="modal"
                                         data-target="#kategori{{ $kategori->id }}">
-                                    <div class="card-body">
-                                            <h6>{{ $kategori->nama }}</h6>
+                                    <div class="card-body" style="height: 80px; width: 200px">
+                                        @if ($kategori->nama == "Fresh Juices")
+                                            <h6><img src="{{ asset('img/icon/fresh-juice.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Fruit Coffees")
+                                            <h6><img src="{{ asset('img/icon/coffee.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Fruit Punches")
+                                            <h6><img src="{{ asset('img/icon/fruit-punches.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Milk Shakes")
+                                            <h6><img src="{{ asset('img/icon/milkshake.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Smoothies")
+                                            <h6><img src="{{ asset('img/icon/smoothies.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Special Menu")
+                                            <h6><img src="{{ asset('img/icon/special.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @elseif($kategori->nama == "Yogurt")
+                                            <h6><img src="{{ asset('img/icon/yogurt.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
+                                        @endif
                                         </div>
                                     </button>
                                 </div>
@@ -27,11 +41,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-8">
-            <div class="card">
+        <div class="col-12 col-lg-8">
+            <div class="card mb-4">
                 <div class="card-header bg-warning">
                     <h5>
-                        <i class="fa fa-info-circle mr-2"></i>
+                        <i class="fa fa-clipboard mr-2"></i>
                         Detail Transaksi :
                             @if (!empty($transaksi))
                                 No - {{ $transaksi->id }}
@@ -57,7 +71,25 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $transaksi_detail->produk->nama }}</td>
-                                            <td>{{ $transaksi_detail->jumlah_beli }} Pcs</td>
+                                            <td>
+                                                <div class="d-inline">
+                                                    <form action="{{ url('kurangStok') }}/{{ $transaksi_detail->id }}" method="POST">
+                                                        @csrf
+                                                        @if($transaksi_detail->jumlah_beli > 1)
+                                                            <button class="btn btn-danger btn-xs mr-2" style="padding : 2px 6px">
+                                                                <i class="fas fa-minus" style="font-size: 12px"></i>
+                                                            </button>
+                                                        @endif
+                                                    </form>
+                                                    {{ $transaksi_detail->jumlah_beli }}
+                                                    <form action="{{ url('tambahStok') }}/{{ $transaksi_detail->id }}" method="POST">
+                                                        @csrf
+                                                        <button class="btn btn-primary btn-xs ml-2" style="padding : 2px 6px">
+                                                            <i class="fas fa-plus" style="font-size: 12px"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
                                             <td>@currency($transaksi_detail->produk->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                             <td class="text-center">
@@ -74,7 +106,7 @@
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="4" align="right"><strong>Total Harga : </strong></td>
+                                        <td colspan="5" align="right"><strong>Total Harga : </strong></td>
                                         <td>
                                             @if (!empty($transaksi))
                                                 <strong>@currency($transaksi->jumlah_harga)</strong>
@@ -92,10 +124,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header bg-warning">
-                    <h5><i class="fas fa-check-double mr-2"></i> Konfirmasi Transaksi</h5>
+                    <h5><i class="fas fa-check-square mr-2"></i> Konfirmasi Transaksi</h5>
                 </div>
                 <div class="card-body">
                     @if (!empty($transaksi))
@@ -144,13 +176,13 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{$kategori->nama}}</h5>
+                    <h5 class="modal-title">Kategori {{$kategori->nama}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="example1" class="table table-bordered table-hover table-responsive-lg">
+                    <table class="table table-bordered table-hover table-responsive-lg example1">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -158,7 +190,7 @@
                             <th>Stok</th>
                             <th>Harga</th>
                             <th>Jumlah Beli</th>
-                            <th>#</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,11 +199,17 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $produk->nama }}</td>
                             <td>{{ $produk->stok }}</td>
-                            <td>{{ $produk->harga }}</td>
+                            <td>@currency($produk->harga)</td>
                             <form method="POST" action="{{route('kasir.tambahTransaksi', $produk->id)}}">
-                            {{csrf_field()}}
-                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" ></td>
-                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="submit" class="btn btn-primary" name="submit" value="Tambahkan" ></td>
+                            @csrf
+                                <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" ></td>
+                                <td width="10%">
+                                    @if ($produk->stok==0)
+                                        <input type="submit" class="btn btn-danger" name="submit" value="Tambahkan" disabled>
+                                    @else
+                                        <input type="submit" class="btn btn-primary" name="submit" value="Tambahkan" >
+                                    @endif
+                                </td>
                             </form>
                         </tr>
                     @endforeach
@@ -187,6 +225,7 @@
 
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{asset('assets_admin/dist/datatables-bs4/css/dataTables.bootstrap4.css')}}">
 <style>
     .hov:hover{
         background-color: #ffc107;
@@ -196,7 +235,21 @@
 
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset('assets_admin/dist/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{asset('assets_admin/dist/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script>
+    $(function () {
+            $(".example1").DataTable();
+            $('.example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            });
+        });
+
     @if($errors->any())
         $('#produk').modal('show'),
     @endif

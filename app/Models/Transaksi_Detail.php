@@ -16,6 +16,11 @@ class Transaksi_Detail extends Model
         return $this->belongsTo(Produk::class, 'produk_id', 'id');
     }
 
+    public function kategori()
+    {
+        return $this->belongsToMany(Transaksi_Detail::class, 'transaksi_detail','produk_id', 'id');
+    }
+
     public function transaksi()
     {
         return $this->belongsTo(Transaksi::class, 'transaksi_id', 'id');

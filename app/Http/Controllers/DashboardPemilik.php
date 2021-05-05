@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use App\Models\Pegawai;
+use App\Models\Pengaturan;
 use App\Models\Produk;
 use App\Models\Supplier;
 use App\Models\Transaksi;
@@ -29,5 +30,12 @@ class DashboardPemilik extends Controller
         }
 
         return view('content.pemilik.dashboard', compact('pegawai', 'supplier', 'kategori', 'produk','kritis','habis', 'pendapatan' ,'keuntungan'));
+    }
+
+    public function pengaturanStok()
+    {
+        $pengaturans = Pengaturan::get();
+
+        return view('content.pemilik.pengaturan_stok.index', compact('pengaturans'));
     }
 }

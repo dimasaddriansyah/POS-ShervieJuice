@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:pemilik'], function () {
     Route::post('admin/keuangan', [TransaksiController::class, 'keuangan']);
     Route::get('cetakPDFKeuangan', [TransaksiController::class, 'cetakPDFKeuangan'])->name('keuangan.cetakPDF');
     Route::get('cetakExcelKeuangan', [TransaksiController::class, 'cetakExcelKeuangan'])->name('keuangan.cetakExcel');
+    Route::get('pengaturanStok', [DashboardPemilik::class, 'pengaturanStok'])->name('pengaturanStok');
 });
 
 Route::group(['middleware' => 'auth:pegawai'], function () {
@@ -41,6 +42,9 @@ Route::group(['middleware' => 'auth:pegawai'], function () {
     Route::get('kasir', [DashboardPegawai::class, 'index'])->name('kasir');
     Route::post('tambah-transaksi/{produk}', [DashboardPegawai::class, 'tambahTransaksi'])->name('kasir.tambahTransaksi');
     Route::delete('delete-transaksi/{produk}', [DashboardPegawai::class, 'hapusTransaksi'])->name('kasir.hapusTransaksi');
+
+    Route::post('tambahStok/{id}', [DashboardPegawai::class, 'tambahStok']);
+    Route::post('kurangStok/{id}', [DashboardPegawai::class, 'kurangStok']);
 
     Route::get('konfirmasiTransaksi/{transaksi}', [DashboardPegawai::class, 'tampilKonfirmasi'])->name('kasir.tampilKonfirmasi');
     Route::post('konfirmasi/{transaksi}', [DashboardPegawai::class, 'konfirmasiTransaksi'])->name('kasir.konfirmasiTransaksi');
