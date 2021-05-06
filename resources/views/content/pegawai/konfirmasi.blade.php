@@ -75,7 +75,9 @@
                         </table>
                         <div class="d-grid gap-2">
                             <a class="btn btn-warning" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
-                                    class="bi bi-printer me-2"></i> Print Struk Transaksi</a>
+                                    class="bi bi-printer me-2"></i>Export PDF</a>
+                            <button type="button" class="btn btn-primary" onClick="cetak({{$transaksi->id}})"><i
+                                    class="bi bi-printer me-2"></i>Print</button>
                         </div>
                     </div>
                 </div>
@@ -83,3 +85,43 @@
         </div>
     </div>
 @endsection
+@push('script')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+function cetak(id) {
+    swal({
+        title: "Print?",
+        text: "Print Transaksi ini?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((konfirm) => {
+        if(konfirm) {
+            $.ajax({
+                type: "POST",
+                url: "{{url('print')}}",
+                data: {id: id, _token: '{{csrf_token()}}'},
+                success: function(data){
+                    var json = $.parseJSON(data)
+                    var ic = "error", msg="Terjadi Kesalahan!"
+                    if(json.status == 200) {ic="success"; msg="Berhasil!"}
+                    swal({
+                        title: msg,
+                        text: json.message,
+                        icon: ic,
+                    });
+                }
+            });
+        }else{
+            swal({
+                title: "Dibatalkan!",
+                text: "Print dibatalkan!",
+                icon: "info",
+            });
+        }
+    });
+    }
+</script>
+@endpush
