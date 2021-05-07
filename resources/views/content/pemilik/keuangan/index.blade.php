@@ -24,8 +24,8 @@
                         </button>
                         <form method="post">
                             @csrf
-                                <input type="text" name="range" class="form-control d-flex d-inline">
-                                <input type="submit" name="submit" class="btn btn-info" value="Filter">
+                                <input type="text" name="range" class="form-control d-flex d-inline mb-2">
+                                <input type="submit" name="submit" class="btn btn-info btn-block mb-3" value="Filter">
                         </form>
                     </div>
                 </div>

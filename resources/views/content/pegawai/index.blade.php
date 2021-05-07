@@ -70,7 +70,7 @@
                                     @foreach ($transaksi_detail as $transaksi_detail)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $transaksi_detail->produk->nama }}</td>
+                                            <td>{{ $transaksi_detail->produk->kategori->nama.' - '.$transaksi_detail->produk->nama }}</td>
                                             <td>
                                                 <div class="d-inline">
                                                     <form action="{{ url('kurangStok') }}/{{ $transaksi_detail->id }}" method="POST">
@@ -90,6 +90,7 @@
                                                     </form>
                                                 </div>
                                             </td>
+                                            <td>{{ $transaksi_detail->jumlah_beli }} Pcs</td>
                                             <td>@currency($transaksi_detail->produk->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                             <td class="text-center">
@@ -146,7 +147,9 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Uang Bayar</label>
-                        <input type="text" id="uang_bayar" class="form-control @error('uang_bayar') is-invalid @enderror"
+                        <div class="row  justify-content-md-center"><button type="button" class="btn btn-primary btn-sm" onClick="uangBayar(10000)">Rp. 10.000</button>&nbsp;<button type="button" class="btn btn-primary btn-sm" onClick="uangBayar(20000)">Rp. 20.000</button></div><br>
+                        <div class="row  justify-content-md-center"><button type="button" class="btn btn-primary btn-sm" onClick="uangBayar(50000)">Rp. 50.000</button>&nbsp;<button type="button" class="btn btn-primary btn-sm" onClick="uangBayar(100000)">Rp. 100.000</button></div><br>
+                        <input type="number" id="uang_bayar" class="form-control @error('uang_bayar') is-invalid @enderror"
                             name="uang_bayar" value="{{ old('uang_bayar') }}" onfocus="startCalculate()"
                             onblur="stopCalc()"
                             onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);">Nominal
@@ -299,8 +302,12 @@
     function stopCalc() {
         clearInterval(interval);
     }
-    function tambahkan(){
-
+    function uangBayar(uang){
+        var uangbayar1 = $("#uang_bayar").val()
+        if(!uangbayar1) uangbayar1 = 0
+        var bayar = parseInt(uang, 10)+parseInt(uangbayar1, 10)
+       $("#uang_bayar").val(bayar)
+       document.getElementById('format').innerHTML = formatCurrency(bayar)
     }
 </script>
 @endpush
