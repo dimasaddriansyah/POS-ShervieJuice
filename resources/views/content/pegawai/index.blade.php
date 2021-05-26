@@ -172,7 +172,7 @@
                             <td>{{ $produk->harga }}</td>
                             <form method="POST" action="{{route('kasir.tambahTransaksi', $produk->id)}}">
                             {{csrf_field()}}
-                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" ></td>
+                            <td width="10%"><input @if($produk->stok==0) disabled @endif type="number" class="form-control" name="jumlah_beli" required></td>
                             <td width="10%"><input @if($produk->stok==0) disabled @endif type="submit" class="btn btn-primary" name="submit" value="Tambahkan" ></td>
                             </form>
                         </tr>
