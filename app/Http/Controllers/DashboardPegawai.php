@@ -21,7 +21,7 @@ class DashboardPegawai extends Controller
     public function index()
     {
         $kategoris = Kategori::orderBy('nama', 'ASC')->get();
-        $produks = Produk::with('kategori')->get();
+        $produks = Produk::with('kategori')->orderBy('stok', 'DESC')->get();
         $transaksi_detail = Transaksi_Detail::with('transaksi', 'produk')->get();
         $transaksi = Transaksi::where('status', 0)->first();
         if (!empty($transaksi)) {
