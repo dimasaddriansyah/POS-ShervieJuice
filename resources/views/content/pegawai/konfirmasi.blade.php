@@ -73,9 +73,11 @@
                                 <td>@currency($transaksi->uang_bayar - $transaksi->jumlah_harga)</td>
                             </tr>
                         </table>
-                        <div class="d-grid gap-2">
+                        <div class="row">
                             <a class="btn btn-warning btn-block" href="{{ route('kasir.cetakPDF', $transaksi) }}" target="_blank"><i
-                                    class="fas fa-vote-yea mr-2"></i> Print Struk Transaksi</a>
+                                    class="fas fa-file-pdf mr-2"></i>Export PDF</a>
+                            <button type="button" class="btn btn-primary btn-block" onClick="cetak({{$transaksi->id}})"><i
+                                    class="fas fa-clipboard mr-2"></i>Print</button>
                         </div>
                     </div>
                 </div>
@@ -83,3 +85,43 @@
         </div>
     </div>
 @endsection
+@push('script')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+function cetak(id) {
+    swal({
+        title: "Print?",
+        text: "Print Transaksi ini?",
+        icon: "warning",
+        buttons: true,
+
+    })
+    .then((konfirm) => {
+        if(konfirm) {
+            $.ajax({
+                type: "POST",
+                url: "{{url('print')}}",
+                data: {id: id, _token: '{{csrf_token()}}'},
+                success: function(data){
+                    var json = $.parseJSON(data)
+                    var ic = "error", msg="Terjadi Kesalahan!"
+                    if(json.status == 200) {ic="success"; msg="Berhasil!"}
+                    swal({
+                        title: msg,
+                        text: json.message,
+                        icon: ic,
+                    });
+                }
+            });
+        }else{
+            swal({
+                title: "Dibatalkan!",
+                text: "Print dibatalkan!",
+                icon: "info",
+            });
+        }
+    });
+    }
+</script>
+@endpush

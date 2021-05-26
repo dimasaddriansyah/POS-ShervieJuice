@@ -90,7 +90,6 @@
                                                     </form>
                                                 </div>
                                             </td>
-                                            <td>{{ $transaksi_detail->jumlah_beli }} Pcs</td>
                                             <td>@currency($transaksi_detail->produk->harga)</td>
                                             <td>@currency($transaksi_detail->jumlah_harga)</td>
                                             <td class="text-center">
@@ -107,7 +106,7 @@
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="5" align="right"><strong>Total Harga : </strong></td>
+                                        <td colspan="4" align="right"><strong>Total Harga : </strong></td>
                                         <td>
                                             @if (!empty($transaksi))
                                                 <strong>@currency($transaksi->jumlah_harga)</strong>

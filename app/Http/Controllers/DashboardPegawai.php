@@ -216,118 +216,80 @@ class DashboardPegawai extends Controller
 
         return redirect()->route('kasir');
     }
-    public function test_print()
+
+    public function print(Request $request)
     {
-        $connector = new WindowsPrintConnector("COM4"); //new FilePrintConnector("\\%COMPUTERNAME%\POS PRINT");
+        $transaksi = transaksi::find($request->id);
+        $transaksi_detail = transaksi_detail::select(
+            'transaksi_detail.id',
+            'transaksi_detail.jumlah_beli',
+            'transaksi_detail.jumlah_harga',
+            'produk.nama AS produk',
+            'produk.harga',
+            'kategori.nama AS kategori'
+        )
+            ->join('produk', 'transaksi_detail.produk_id', '=', 'produk.id')
+            ->join('kategori', 'produk.kategori_id', '=', 'kategori.id')
+            ->where('transaksi_id', $transaksi->id)->get();
+        $connector = new WindowsPrintConnector("smb://localhost/PRINT");
         $printer = new Printer($connector);
 
         try {
             $tux = EscposImage::load(public_path('img/Shervie.png'), false);
-
-            // $printer -> setJustification(Printer::JUSTIFY_CENTER);
-            // $printer -> bitImage($tux, Printer::IMG_DOUBLE_WIDTH);
-            // $printer -> setJustification(Printer::JUSTIFY_LEFT);
-            // $pages = ImagickEscposImage::loadPdf($this->cetakPDF(23));
-            // foreach($pages as $page){
-            //     $printer->bitImage($page);
-            // }
-            // $printer -> text("Pempek Sedona & Shervie Juice.\nReady to Serve, Enjoy!\n\n");
-            // $printer -> feed();
-            // $printer -> feed();
-
-            // $printer -> cut();
-            /* Print top logo */
-            $date = "Senin, 03 Mei 2021";
-            $items = array(
-                new item("Example item #1", "4.00"),
-                new item("Another thing", "3.50"),
-                new item("Something else", "1.00"),
-                new item("A final item", "4.45"),
-            );
-            $subtotal = new item('Subtotal', '12.95');
-            $tax = new item('A local tax', '1.30');
-            $total = new item('Total', '14.25', true);
-
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->bitImage($tux);
 
             /* Name of shop */
             $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer->text("ExampleMart Ltd.\n");
+            $printer->text("Shervie Juice\n");
             $printer->selectPrintMode();
-            $printer->text("Shop No. 42.\n");
+            $printer->text("Jl. Tanjung Pura 18 Ruko Kuning Pintu Ijo, Utara Perempatan SC, Indramayu\n");
             $printer->feed();
 
-            /* Title of receipt */
-            $printer->setEmphasis(true);
-            $printer->text("SALES INVOICE\n");
-            $printer->setEmphasis(false);
 
-            /* Items */
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setEmphasis(true);
-            $printer->text(new item('', '$'));
-            $printer->setEmphasis(false);
-            foreach ($items as $item) {
-                $printer->text($item);
-            }
-            $printer->setEmphasis(true);
-            $printer->text($subtotal);
+            $printer->text("Nama Kasir   : " . Auth::guard('pegawai')->user()->nama . "\n");
+            $printer->text("No Transaksi : " . $transaksi->id . "\n");
+            $printer->text("Tanggal      : " . $transaksi->created_at . "\n");
+            $printer->text("Nama Pembeli : " . $transaksi->nama_pembeli . "\n");
             $printer->setEmphasis(false);
             $printer->feed();
 
-            /* Tax and total */
-            $printer->text($tax);
-            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer->text($total);
-            $printer->selectPrintMode();
+            $printer->text("--------------------------------\n");
+            $printer->feed();
 
-            /* Footer */
-            $printer->feed(2);
+            /* Items */
+            foreach ($transaksi_detail as $key => $r) {
+                $printer->text($r->kategori . '-' . $r->produk . "\n");
+                $printer->text($r->jumlah_beli . " x Rp " . number_format($r->harga) . "\n");
+                $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                $printer->text("Rp " . number_format($r->jumlah_harga) . "\n");
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+            }
+
+            $printer->setEmphasis(true);
+            $printer->text("Total Harga : Rp " . number_format($transaksi->jumlah_harga) . "\n");
+            $printer->feed();
+            $printer->text("Uang Bayar  : Rp " . number_format($transaksi->uang_bayar) . "\n");
+            $printer->text("Kembali     : Rp " . number_format($transaksi->uang_bayar - $transaksi->jumlah_harga) . "\n");
+            $printer->setEmphasis(false);
+            $printer->text("--------------------------------\n");
+            $printer->feed();
+
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Thank you for shopping at ExampleMart\n");
-            $printer->text("For trading hours, please visit example.com\n");
+            $printer->text("TERIMA KASIH ATAS KUNJUNGANNYA");
             $printer->feed(2);
-            $printer->text($date . "\n");
 
-            /* Cut the receipt and open the cash drawer */
             $printer->cut();
             $printer->pulse();
-
-            $printer->close();
+            echo json_encode(["status" => 200, "message" => "Print Berhasil"]);
         } catch (Exception $e) {
             /* Images not supported on your PHP, or image file not found */
-            $printer->text($e->getMessage() . "\n");
+            //$printer -> text($e -> getMessage() . "\n");
+            echo json_encode(["status" => 500, "message" => $e->getMessage()]);
         }
 
         $printer->close();
-    }
-}
-
-class item
-{
-    private $name;
-    private $price;
-    private $dollarSign;
-
-    public function __construct($name = '', $price = '', $dollarSign = false)
-    {
-        $this->name = $name;
-        $this->price = $price;
-        $this->dollarSign = $dollarSign;
-    }
-
-    public function __toString()
-    {
-        $rightCols = 10;
-        $leftCols = 38;
-        if ($this->dollarSign) {
-            $leftCols = $leftCols / 2 - $rightCols / 2;
-        }
-        $left = str_pad($this->name, $leftCols);
-
-        $sign = ($this->dollarSign ? '$ ' : '');
-        $right = str_pad($sign . $this->price, $rightCols, ' ', STR_PAD_LEFT);
-        return "$left$right\n";
     }
 }
