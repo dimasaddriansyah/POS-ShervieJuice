@@ -20,7 +20,7 @@ class DashboardPegawai extends Controller
     public function index()
     {
         // Printing::printers();
-        // echo "I LOVE YOU, TRIANA <3"; exit;
+        // echo "TRIANA <3"; exit;
         $kategoris = Kategori::get();
         $produks = Produk::with('kategori')->orderBy('stok', 'DESC')->get();
         $transaksi_detail = Transaksi_Detail::get();
