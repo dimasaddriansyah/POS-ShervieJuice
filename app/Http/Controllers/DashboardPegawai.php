@@ -23,7 +23,7 @@ class DashboardPegawai extends Controller
         $kategoris = Kategori::orderBy('nama', 'ASC')->get();
         $produks = Produk::with('kategori')->orderBy('stok', 'DESC')->get();
         $transaksi_detail = Transaksi_Detail::with('transaksi', 'produk')->get();
-        $transaksi = Transaksi::where('status', 0)->first();
+        $transaksi = Transaksi::where('pegawai_id', Auth::guard('pegawai')->user()->id)->where('status', 0)->first();
         if (!empty($transaksi)) {
             $transaksi_detail  = Transaksi_Detail::with('transaksi', 'produk')->where('transaksi_id', $transaksi->id)->get();
             return view('content.pegawai.index', compact('produks', 'transaksi', 'transaksi_detail', 'kategoris'));
@@ -147,7 +147,7 @@ class DashboardPegawai extends Controller
 
     public function tampilKonfirmasi($id)
     {
-        $transaksi = Transaksi::find($id);
+        $transaksi = Transaksi::where('pegawai_id', Auth::guard('pegawai')->user()->id)->find($id);
         $transaksi_detail = Transaksi_Detail::where('transaksi_id', $transaksi->id)->get();
 
         return view('content.pegawai.konfirmasi', compact('transaksi', 'transaksi_detail'));

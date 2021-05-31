@@ -11,6 +11,7 @@ class Pegawai extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'pegawai';
+    protected $fillable = ['nama', 'email', 'password', 'alamat', 'no_hp'];
 
     public function transaksi()
     {
