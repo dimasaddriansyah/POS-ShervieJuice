@@ -27,11 +27,19 @@ class KategoriController extends Controller
                 'nama.min' => 'Minimal 3 Karakter !',
                 'nama.regex' => 'Nama Tidak Valid !',
                 'nama.unique' => 'Nama Kategori Sudah Ada !',
+                'icon.required' => 'Harus Mengisi Bagian Icon !'
             ]
         );
 
+
+        $file = $request->file('icon');
+        $nama_file = time() . "_" . $file->getClientOriginalName();
+        $tujuan_upload = 'img/icon/';
+        $file->move($tujuan_upload, $nama_file);
+
         $kategori = new Kategori();
         $kategori->nama = ucwords($request->nama);
+        $kategori->icon = $nama_file;
         $kategori->save();
 
         alert()->success('Data Berhasil Di Tambah !', 'Success');
@@ -49,13 +57,22 @@ class KategoriController extends Controller
                 'nama.required' => 'Harus Mengisi Bagian Nama !',
                 'nama.min' => 'Minimal 4 Karakter !',
                 'nama.regex' => 'Inputan Nama Tidak Valid !',
+                'icon.required' => 'Harus Mengisi Bagian Icon !'
             ]
         );
 
-        Kategori::where('id', $id)
-            ->update([
-                'nama' => ucwords($request->nama),
-            ]);
+        $kategori = Kategori::find($id);
+        $kategori->nama = ucwords($request->nama);
+        if (empty($request->icon)) {
+            $kategori->icon = $kategori->icon;
+        } else {
+            unlink('img/icon/' . $kategori->icon); //menghapus file lama
+            $file = $request->file('icon'); // menyimpan data gambar yang diupload ke variabel $file
+            $nama_file = time() . "_" . $file->getClientOriginalName();
+            $file->move('img/icon/', $nama_file); // isi dengan nama folder tempat kemana file diupload
+            $kategori->icon = $nama_file;
+        }
+        $kategori->save();
 
         alert()->success('Data Berhasil Di Update !', 'Success');
         return redirect()->route('kategori.index');
@@ -63,12 +80,14 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
-        try{
-            Kategori::find($id)->delete();
+        try {
+            $kategori = Kategori::find($id);
+            unlink('img/icon/' . $kategori->icon); //menghapus file lama
+            $kategori->delete();
 
             alert()->success('Data Terhapus', 'Deleted');
             return redirect()->route('kategori.index');
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
 
             alert()->error('Data Tidak Dapat Dihapus Karena Relasi RESCRICT', 'Error');
             return redirect()->route('kategori.index');

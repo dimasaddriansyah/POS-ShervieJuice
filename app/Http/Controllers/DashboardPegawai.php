@@ -103,8 +103,10 @@ class DashboardPegawai extends Controller
             $request,
             [
                 'uang_bayar' => 'required|min:1|numeric',
+                'nama_pembeli' => 'required',
             ],
             [
+                'nama_pembeli.required' => 'Harus Mengisi Nama Pembeli !',
                 'uang_bayar.required' => 'Harus Mengisi Uang Bayar !',
                 'uang_bayar.min' => 'Minimal Uang Bayar Tidak Boleh Kurang Dari 1',
                 'uang_bayar.numeric' => 'Harus Pakai Nomer !',

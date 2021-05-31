@@ -15,22 +15,10 @@
                                     <button class="card mb-3 hov" style="text-decoration: none" data-toggle="modal"
                                         data-target="#kategori{{ $kategori->id }}">
                                     <div class="card-body" style="height: 80px; width: 200px">
-                                        @if ($kategori->nama == "Fresh Juices")
-                                            <h6><img src="{{ asset('img/icon/fresh-juice.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Fruit Coffees")
-                                            <h6><img src="{{ asset('img/icon/coffee.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Fruit Punches")
-                                            <h6><img src="{{ asset('img/icon/fruit-punches.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Milk Shakes")
-                                            <h6><img src="{{ asset('img/icon/milkshake.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Smoothies")
-                                            <h6><img src="{{ asset('img/icon/smoothies.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Special Menu")
-                                            <h6><img src="{{ asset('img/icon/special.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @elseif($kategori->nama == "Yogurt")
-                                            <h6><img src="{{ asset('img/icon/yogurt.png') }}" class="mr-2"> {{ $kategori->nama }}</h6>
-                                        @endif
-                                        </div>
+                                        <h6>
+                                            <img src="{{ asset('img/icon/'. $kategori->icon) }}" class="mr-2" style="height: 30px; width: 30px"> {{ $kategori->nama }}
+                                        </h6>
+                                    </div>
                                     </button>
                                 </div>
                             @endforeach
@@ -138,6 +126,9 @@
                         <label class="form-label">Nama Pembeli</label>
                         <input type="text" class="form-control @error('nama_pembeli') is-invalid @enderror"
                             name="nama_pembeli">
+                        @if ($errors->has('nama_pembeli')) <span
+                            class="invalid-feedback"><strong>{{ $errors->first('nama_pembeli') }}</strong></span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <label class="form-label">Total Harga</label>
