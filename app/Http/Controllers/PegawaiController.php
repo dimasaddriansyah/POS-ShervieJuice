@@ -39,6 +39,7 @@ class PegawaiController extends Controller
                 'no_hp.numeric' => 'Harus Pakai Nomer !',
             ]
         );
+        
         $pegawai = new pegawai();
         $pegawai->nama = ucwords($request->nama);
         $pegawai->email = $request->email;
@@ -57,7 +58,7 @@ class PegawaiController extends Controller
             $request,
             [
                 'nama' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:pegawai,email,' . $id,
                 'alamat' => 'required|min:6',
                 'no_hp' => 'required|min:10|numeric',
             ],

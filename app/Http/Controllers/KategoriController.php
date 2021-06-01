@@ -51,7 +51,7 @@ class KategoriController extends Controller
         $this->validate(
             $request,
             [
-                'nama' => 'required|min:4|regex:/^[\pL\s\-]+$/u',
+                'nama' => 'required|min:4|regex:/^[\pL\s\-]+$/u|unique:kategori,nama,' . $id,
             ],
             [
                 'nama.required' => 'Harus Mengisi Bagian Nama !',
