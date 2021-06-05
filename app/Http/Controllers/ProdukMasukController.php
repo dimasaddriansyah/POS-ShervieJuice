@@ -6,12 +6,13 @@ use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ProdukMasukController extends Controller
 {
     public function index()
     {
-        $produks = Produk::with('kategori', 'supplier')->orderBy('stok','ASC')->get();
+        $produks = Produk::with('kategori', 'supplier')->orderBy('stok', 'ASC')->get();
         $suppliers = Supplier::get();
         $kategoris = Kategori::get();
         $habis = Produk::where('stok', '=', 0)->count();
@@ -76,15 +77,18 @@ class ProdukMasukController extends Controller
         return redirect()->route('produk.index');
     }
 
-    public function editHarga(Request $request,$id)
+    public function editHarga(Request $request, $id)
     {
-        $this->validate($request, [
-            'harga' => 'required|min:1|integer',
-        ],
-        [
-            'harga.required' => 'Harus Mengisi Bagian Harga Jual !',
-            'harga.min' => 'Tidak Boleh 0 Atau Minus !',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'harga' => 'required|min:1|integer',
+            ],
+            [
+                'harga.required' => 'Harus Mengisi Bagian Harga Jual !',
+                'harga.min' => 'Tidak Boleh 0 Atau Minus !',
+            ]
+        );
 
         $produk = Produk::find($id);
         $produk->harga = $request->harga;
