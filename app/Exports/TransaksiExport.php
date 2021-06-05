@@ -3,13 +3,14 @@
 namespace App\Exports;
 
 use App\Models\Transaksi;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class TransaksiExport implements FromCollection
+class TransaksiExport implements FromView
 {
-
-    public function collection()
+    public function view(): View
     {
-        return Transaksi::with('pegawai')->where('status', 1)->get();
+        $transaksis = Transaksi::with('pegawai')->where('status', 1)->get();
+        return view('content.pemilik.transaksi.excel', compact('transaksis'));
     }
 }

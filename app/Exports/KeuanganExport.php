@@ -3,15 +3,14 @@
 namespace App\Exports;
 
 use App\Models\Transaksi;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class KeuanganExport implements FromCollection
+class KeuanganExport implements FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function view(): View
     {
-        return Transaksi::with('pegawai')->orderBy('created_at', 'DESC')->where('status', 1)->get();
+        $keuangans = Transaksi::orderBy('created_at', 'DESC')->where('status', 1)->get();
+        return view('content.pemilik.keuangan.excel', compact('keuangans'));
     }
 }

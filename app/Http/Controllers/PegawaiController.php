@@ -31,7 +31,7 @@ class PegawaiController extends Controller
                 'nama.min' => 'Minimal 4 Karakter !',
                 'nama.regex' => 'Inputan Nama Tidak Valid !',
                 'email.required' => 'Harus Mengisi Bagian Email !',
-                'email.required' => 'Email Sudah Tedaftar !',
+                'email.unique' => 'Email Sudah Tedaftar !',
                 'alamat.required' => 'Harus Mengisi Bagian Alamat !',
                 'alamat.min' => 'Minimal 6 Karakter !',
                 'no_hp.required' => 'Harus Mengisi Bagian No Hp !',
@@ -39,7 +39,7 @@ class PegawaiController extends Controller
                 'no_hp.numeric' => 'Harus Pakai Nomer !',
             ]
         );
-        
+
         $pegawai = new pegawai();
         $pegawai->nama = ucwords($request->nama);
         $pegawai->email = $request->email;
