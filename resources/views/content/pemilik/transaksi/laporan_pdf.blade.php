@@ -43,11 +43,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($transaksi as $transaksi)
+            @foreach ($pdf as $transaksi)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $transaksi->pegawai->nama }}</td>
-                    <td>Pembeli Shervie Juice</td>
+                    <td>{{ $transaksi->nama_pembeli }}</td>
                     <td>@currency($transaksi->uang_bayar)</td>
                     <td>@currency($transaksi->jumlah_harga)</td>
                     <td>@currency($transaksi->uang_bayar - $transaksi->jumlah_harga)</td>

@@ -7,9 +7,7 @@ use App\Exports\TransaksiExport;
 use App\Models\Transaksi;
 use Maatwebsite\Excel\Facades\Excel as Excel;
 use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -34,29 +32,43 @@ class TransaksiController extends Controller
         return view('content.pemilik.keuangan.index', compact('keuangan', 'pendapatan'));
     }
 
-    public function cetakPDFTransaksi()
+    public function exportPDFTransaksi(Request $request)
     {
-        $transaksi = Transaksi::with('pegawai')->where('status', 1)->get();
-
-        $pdf = PDF::loadview('content.pemilik.transaksi.laporan_pdf', compact('transaksi'));
-        return $pdf->download('Laporan Transaksi');
+        if (!empty($request->start && $request->end)) {
+            $pdf = Transaksi::with('pegawai')->orderBy('created_at', 'DESC')->where('status', 1)->whereDate("created_at", ">=", $request->start)->whereDate("created_at", "<=", $request->end)->get();
+            $pdf = PDF::loadview('content.pemilik.transaksi.laporan_pdf', compact('pdf'));
+            return $pdf->download('Laporan Transaksi');
+        }
+        return redirect()->back()->with('alert', 'Silahkan Isi Tanggal Dengan Benar Terlebih Dahulu Untuk Mencetak Riwayat Transaksi Format PDF !');
     }
 
-    public function cetakPDFKeuangan()
+    public function exportExcelTransaksi(Request $request)
     {
-        $keuangan = Transaksi::with('pegawai')->orderBy('created_at', 'DESC')->where('status', 1)->get();
-
-        $pdf = PDF::loadview('content.pemilik.keuangan.laporan_pdf', compact('keuangan'));
-        return $pdf->download('Laporan Keuangan');
+        if (!empty($request->start && $request->end)) {
+            $start = $request->start;
+            $end = $request->end;
+            return Excel::download(new TransaksiExport($start, $end), 'laporanTransaksi.xlsx');
+        }
+        return redirect()->back()->with('alert', 'Silahkan Isi Tanggal Dengan Benar Terlebih Dahulu Untuk Mencetak Riwayat Transaksi Format EXCEL !');
     }
 
-    public function cetakExcelTransaksi()
+    public function exportPDFKeuangan(Request $request)
     {
-        return Excel::download(new TransaksiExport, 'laporanTransaksi.xlsx');
+        if (!empty($request->start && $request->end)) {
+            $pdf = Transaksi::with('pegawai')->orderBy('created_at', 'DESC')->where('status', 1)->whereDate("created_at", ">=", $request->start)->whereDate("created_at", "<=", $request->end)->get();
+            $pdf = PDF::loadview('content.pemilik.keuangan.laporan_pdf', compact('pdf'));
+            return $pdf->download('Laporan Keuangan');
+        }
+        return redirect()->back()->with('alert', 'Silahkan Isi Tanggal Dengan Benar Terlebih Dahulu Untuk Mencetak Laporan Keuangan Format PDF !');
     }
 
-    public function cetakExcelKeuangan()
+    public function exportExcelKeuangan(Request $request)
     {
-        return Excel::download(new KeuanganExport, 'laporanKeuangan.xlsx');
+        if (!empty($request->start && $request->end)) {
+            $start = $request->start;
+            $end = $request->end;
+            return Excel::download(new KeuanganExport($start, $end), 'laporanKeuangan.xlsx');
+        }
+        return redirect()->back()->with('alert', 'Silahkan Isi Tanggal Dengan Benar Terlebih Dahulu Untuk Mencetak Laporan Keuangan Format EXCEL !');
     }
 }

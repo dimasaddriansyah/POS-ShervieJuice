@@ -40,12 +40,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($keuangan as $keuangan)
+            @foreach ($pdf as $pdf)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $keuangan->created_at }}</td>
-                    <td>{{ $keuangan->pegawai->nama }}</td>
-                    <td>@currency($keuangan->jumlah_harga)</td>
+                    <td>{{ $pdf->created_at }}</td>
+                    <td>{{ $pdf->pegawai->nama }}</td>
+                    <td>@currency($pdf->jumlah_harga)</td>
                 </tr>
             @endforeach
         </tbody>
