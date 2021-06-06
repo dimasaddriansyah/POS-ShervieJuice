@@ -49,7 +49,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Produk</th>
-                                <th>Jumlah Beli</th>
+                                <th style="width: 20%">Jumlah Beli</th>
                                 <th>Harga Satuan</th>
                                 <th>Jumlah Harga</th>
                                 <th>Option</th>
@@ -61,8 +61,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $transaksi_detail->produk->kategori->nama.' - '.$transaksi_detail->produk->nama }}
                                 </td>
-                                <td>
-                                    <div class="row">
+                                <td style="width: 20%">
+                                    <div class="row justify-content-center">
                                         <form action="{{ url('kurangStok') }}/{{ $transaksi_detail->id }}"
                                             method="POST">
                                             @csrf
@@ -141,12 +141,22 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Uang Bayar</label>
-                        <div class="row  justify-content-md-center"><button type="button" class="btn btn-primary btn-sm"
-                                onClick="uangBayar(10000)">Rp. 10.000</button>&nbsp;<button type="button"
-                                class="btn btn-primary btn-sm" onClick="uangBayar(20000)">Rp. 20.000</button></div><br>
-                        <div class="row  justify-content-md-center"><button type="button" class="btn btn-primary btn-sm"
-                                onClick="uangBayar(50000)">Rp. 50.000</button>&nbsp;<button type="button"
-                                class="btn btn-primary btn-sm" onClick="uangBayar(100000)">Rp. 100.000</button></div>
+                        <div class="row justify-content-center">
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(2000)">Rp
+                                2.000</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(5000)">Rp
+                                5.000</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(10000)">Rp
+                                10.000</button>
+                        </div>
+                        <div class="row justify-content-center mt-3">
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(20000)">Rp
+                                20.000</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(50000)">Rp
+                                50.000</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2" onClick="uangBayar(100000)">Rp
+                                100.000</button>
+                        </div>
                         <br>
                         <input type="number" id="uang_bayar"
                             class="form-control @error('uang_bayar') is-invalid @enderror" name="uang_bayar"
