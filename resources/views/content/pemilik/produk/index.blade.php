@@ -190,6 +190,7 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('produk.update',$produk) }}" method="post">
+                    @method('PATCH')
                     @csrf
                     @include('content.pemilik.produk.editProduk')
             </div>

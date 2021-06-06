@@ -2,7 +2,7 @@
 @section('title', 'Data Riwayat Transaksi')
 @section('content')
 <div class="section-header">
-    <h1>Riwayat Transaksi Page</h1>
+    <h1>Riwayat Transaksi</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('pemilik.dashboard') }}">Dashboard</a></div>
         <div class="breadcrumb-item">Riwayat Transaksi</div>

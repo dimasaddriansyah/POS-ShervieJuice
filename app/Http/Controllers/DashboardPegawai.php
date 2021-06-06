@@ -173,11 +173,10 @@ class DashboardPegawai extends Controller
         $transaksi->update();
 
         $transaksi_detail->delete();
-        // if(empty($transaksi_detail)){
-        //     $transaksi->delete();
-        // }
-        // $transaksi->delete();
 
+        if (empty($transaksi_detail->id)) {
+            $transaksi->delete();
+        }
 
         alert()->success('Berhasil Menghapus Produk', 'Success');
         return redirect()->route('kasir');
@@ -187,6 +186,7 @@ class DashboardPegawai extends Controller
     {
         $transaksi_detail = Transaksi_Detail::find($id);
         $produk = Produk::where('id', $transaksi_detail->produk->id)->first();
+        $jumlah_harga_awal = $transaksi_detail->jumlah_harga;
 
         $transaksi_detail->increment('jumlah_beli');
         $transaksi_detail->update();
@@ -195,7 +195,10 @@ class DashboardPegawai extends Controller
         $transaksi_detail->update();
 
         $transaksi = Transaksi::where('id', $transaksi_detail->transaksi->id)->first();
-        $transaksi->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $jumlah_harga_sebelum = $transaksi->jumlah_harga;
+        $perkalian = ($produk->harga * $transaksi_detail->jumlah_beli) - ($jumlah_harga_awal);
+        $jumlah_harga_sekarang = $jumlah_harga_sebelum + $perkalian;
+        $transaksi->jumlah_harga = $jumlah_harga_sekarang;
         $transaksi->save();
 
         return redirect()->route('kasir');
@@ -213,7 +216,8 @@ class DashboardPegawai extends Controller
         $transaksi_detail->update();
 
         $transaksi = Transaksi::where('id', $transaksi_detail->transaksi->id)->first();
-        $transaksi->jumlah_harga = $produk->harga * $transaksi_detail->jumlah_beli;
+        $jumlah_harga_sebelum = $transaksi->jumlah_harga;
+        $transaksi->jumlah_harga = $jumlah_harga_sebelum - $produk->harga;
         $transaksi->save();
 
         return redirect()->route('kasir');

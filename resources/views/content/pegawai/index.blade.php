@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="row">
                         @foreach ($kategoris as $kategori)
-                        <div class="col-6 col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                             <button class="card mb-3 hov" style="text-decoration: none" data-toggle="modal"
                                 data-target="#kategori{{ $kategori->id }}">
                                 <div class="card-body" style="height: 80px; width: 200px">
@@ -62,7 +62,7 @@
                                 <td>{{ $transaksi_detail->produk->kategori->nama.' - '.$transaksi_detail->produk->nama }}
                                 </td>
                                 <td>
-                                    <div class="d-inline">
+                                    <div class="row">
                                         <form action="{{ url('kurangStok') }}/{{ $transaksi_detail->id }}"
                                             method="POST">
                                             @csrf
@@ -85,7 +85,7 @@
                                 <td>@currency($transaksi_detail->produk->harga)</td>
                                 <td>@currency($transaksi_detail->jumlah_harga)</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-xs btn-danger btn-flat swal-confirm"
+                                    <button type="button" class="btn btn-xs btn-danger btn-flat btn-hapus"
                                         data-id="{{ $transaksi_detail->id }}">
                                         <form action="{{ route('kasir.hapusTransaksi', $transaksi_detail) }}"
                                             method="POST" id="delete{{ $transaksi_detail->id }}">
@@ -255,7 +255,7 @@
         $('#produk').modal('show'),
     @endif
 
-    $(".swal-confirm").click(function(e) {
+    $(".btn-hapus").click(function(e) {
         id = e.target.dataset.id;
         swal({
                 title: 'Delete Data',
