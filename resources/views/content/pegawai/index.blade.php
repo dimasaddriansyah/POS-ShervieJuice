@@ -36,13 +36,13 @@
                 <h5>
                     <i class="fa fa-clipboard mr-2"></i>
                     Detail Transaksi :
-                    @if (!empty($transaksi))
+                    @if (!empty($transaksi->jumlah_harga))
                     No - {{ $transaksi->id }}
                     @endif
                 </h5>
             </div>
             <div class="card-body">
-                @if (!empty($transaksi))
+                @if (!empty($transaksi->jumlah_harga))
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead class="text-center">
@@ -122,7 +122,7 @@
                 <h5><i class="fas fa-check-square mr-2"></i> Konfirmasi Transaksi</h5>
             </div>
             <div class="card-body">
-                @if (!empty($transaksi))
+                @if (!empty($transaksi->jumlah_harga))
                 <form action="{{ route('kasir.konfirmasiTransaksi', $transaksi) }}" method="post">
                     @csrf
                     <div class="form-group">
